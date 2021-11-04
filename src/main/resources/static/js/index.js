@@ -1,10 +1,14 @@
+$("#redirect-button").click(function () {
+    window.location.href = "upload.html";
+});
+
 $.get("http://localhost:7228/api/article/").done(function (articles) {
-    let container = $("#articleContainer");
+    let container = $("#article-container");
     container.empty();
     for (let article of articles) {
         container.append(`
             <div class="row">
-                <h2 class="text text-center p-4">${article.title}</h2>
+                <h2 class="article-title text text-center p-4">${article.title}</h2>
             </div>
             <div class="row m-2">
                 <hr/>
@@ -18,7 +22,7 @@ $.get("http://localhost:7228/api/article/").done(function (articles) {
             </div>
         `);
     }
-}).fail(function(error){
+}).fail(function (error) {
     showError(error.responseJSON);
 });
 
