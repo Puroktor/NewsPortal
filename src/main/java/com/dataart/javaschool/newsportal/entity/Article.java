@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Builder
 public class Article {
     @Id
-    private Long id;
+    private Integer id;
     private String title;
     private String text;
     @Builder.Default

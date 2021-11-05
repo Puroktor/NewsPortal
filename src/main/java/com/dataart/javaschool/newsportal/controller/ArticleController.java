@@ -14,7 +14,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadArticle(@RequestBody MultipartFile file){
+    public ResponseEntity<?> uploadArticle(@RequestBody MultipartFile file) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(articleService.uploadArticle(file));
@@ -23,5 +23,11 @@ public class ArticleController {
     @GetMapping("/")
     public ResponseEntity<?> fetchAllArticles() {
         return ResponseEntity.ok(articleService.fetchAllArticles());
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<?> fetchPage(@RequestParam("index") Integer index,
+                                       @RequestParam("size") Integer size) {
+        return ResponseEntity.ok(articleService.fetchPage(index, size));
     }
 }

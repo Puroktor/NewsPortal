@@ -41,7 +41,6 @@
 			<version>${swagger2.version}</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

@@ -7,7 +7,7 @@ $("#redirect-button").click(function () {
 $("#submit").click(function () {
     let file = $("#input").prop("files")[0];
     if (file === undefined || file.name.split(".").pop() !== "zip") {
-        showMessage("Select .zip file!");
+        showError("Select .zip file!");
         return;
     }
     let formData = new FormData();
@@ -18,10 +18,12 @@ $("#submit").click(function () {
         data: formData,
         cache: false,
         contentType: false,
-        processData: false
+        processData: false,
+        origin: "*"
     }).done(function (){
         showMessage("Success!", "The article was successfully added.");
     }).fail(function (response) {
+        console.log(response);
         showError(response.responseJSON.message);
     });
 });
