@@ -1,16 +1,18 @@
 package com.dataart.javaschool.newsportal.service;
 
 import com.dataart.javaschool.newsportal.controller.dto.ArticleDto;
-import com.dataart.javaschool.newsportal.entity.ArticleEntity;
+import com.dataart.javaschool.newsportal.entity.Article;
 import com.dataart.javaschool.newsportal.exception.WrongFileFormatException;
 import com.dataart.javaschool.newsportal.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -19,6 +21,8 @@ import java.util.zip.ZipInputStream;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    @Value("${article.requiredFileName}")
+    private String requiredFileName;
 
     public List<ArticleDto> fetchAllArticles() {
         List<ArticleDto> dtoList = new ArrayList<>();
@@ -28,12 +32,17 @@ public class ArticleService {
     }
 
     public ArticleDto uploadArticle(MultipartFile file) {
+        if (file == null) {
+            throw new WrongFileFormatException("File is missing!");
+        } else if (!Objects.requireNonNull(file.getOriginalFilename()).endsWith(".zip")) {
+            throw new WrongFileFormatException("Not a .zip archive!");
+        }
         try (ZipInputStream zipStream = new ZipInputStream(file.getInputStream())) {
             ZipEntry entry = zipStream.getNextEntry();
             if (entry == null) {
                 throw new WrongFileFormatException("No file in the archive!");
-            } else if (!entry.getName().equals("article.txt")) {
-                throw new WrongFileFormatException("Wrong inside file name!");
+            } else if (!entry.getName().equals(requiredFileName)) {
+                throw new WrongFileFormatException("Invalid internal file name!");
             } else {
                 StringBuilder titleBuilder = new StringBuilder();
                 int ch;
@@ -50,9 +59,10 @@ public class ArticleService {
                 if (zipStream.getNextEntry() != null) {
                     throw new WrongFileFormatException("Multiple files in the archive!");
                 }
-                ArticleEntity article = new ArticleEntity();
-                article.setTitle(titleBuilder.toString());
-                article.setText(textBuilder.toString());
+                Article article = Article.builder()
+                        .title(titleBuilder.toString())
+                        .text(textBuilder.toString())
+                        .build();
                 return new ArticleDto(articleRepository.save(article));
             }
         } catch (IOException e) {

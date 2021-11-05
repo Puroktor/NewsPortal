@@ -1,8 +1,6 @@
 package com.dataart.javaschool.newsportal.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.sql.Timestamp;
@@ -10,10 +8,12 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleEntity {
+@Builder
+public class Article {
     @Id
     private Long id;
     private String title;
     private String text;
+    @Builder.Default
     private Timestamp creationTime = new Timestamp(System.currentTimeMillis());
 }

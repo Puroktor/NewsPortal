@@ -7,7 +7,7 @@ $("#redirect-button").click(function () {
 $("#submit").click(function () {
     let file = $("#input").prop("files")[0];
     if (file === undefined || file.name.split(".").pop() !== "zip") {
-        showError("Select .zip file!");
+        showMessage("Select .zip file!");
         return;
     }
     let formData = new FormData();
@@ -19,6 +19,8 @@ $("#submit").click(function () {
         cache: false,
         contentType: false,
         processData: false
+    }).done(function (){
+        showMessage("Success!", "The article was successfully added.");
     }).fail(function (response) {
         showError(response.responseJSON.message);
     });

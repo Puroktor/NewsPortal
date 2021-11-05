@@ -1,6 +1,6 @@
 package com.dataart.javaschool.newsportal.controller.dto;
 
-import com.dataart.javaschool.newsportal.entity.ArticleEntity;
+import com.dataart.javaschool.newsportal.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class ArticleDto {
     private String text;
     private Timestamp creationTime;
 
-    public ArticleDto(ArticleEntity entity) {
+    public ArticleDto(Article entity) {
         this.title = entity.getTitle();
         this.text = entity.getText();
         this.creationTime =entity.getCreationTime();
