@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The News Portal</title>
+    <script type="text/javascript" src="js/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="bootstrap-5.1.3-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/common.css"/>
+    <script type="text/javascript" src="bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row header-container p-3">
+        <div class="col">
+            <h1 class="header">The News Portal</h1>
+        </div>
+        <div class="col text-end align-self-center">
+            <button class="btn btn-dark" id="redirect-button">Main page</button>
+        </div>
+    </div>
+    <div class="main-container m-4">
+        <div class="row text-center p-5">
+            <h3 class="text title">Accepts only .zip file, which should contain one file - article.txt</h3>
+        </div>
+
+        <form enctype="multipart/form-data">
+            <div class="row p-3 center">
+                <input type="file" class="form-control w-75 mx-auto" id="input" accept=".zip">
+            </div>
+            <div class="row p-4">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-dark" id="submit">Upload</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text" id="errorText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/showError.js"></script>
+<script type="text/javascript" src="js/upload.js"></script>
+</body>
+</html>

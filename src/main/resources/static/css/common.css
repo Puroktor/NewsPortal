@@ -3,11 +3,11 @@
     src: url("../font/Fruktur-Regular.ttf");
 }
 
-.article-title{
+.title{
     font-weight: bold;
 }
 
-.article-title::first-letter{
+.title::first-letter{
     font-size: 140%;
     border-bottom: 1px dashed black;
 }
@@ -16,7 +16,7 @@
     background-color: #f0f0f0;
 }
 
-#article-container{
+.main-container{
     background-color: #fcfcfc;
 }
 
