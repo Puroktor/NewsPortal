@@ -14,7 +14,7 @@ $("#submit").click(function () {
     formData.append( "file", file);
     $.ajax({
         url: UPLOAD_URL,
-        type: 'POST',
+        type: "POST",
         data: formData,
         cache: false,
         contentType: false,
