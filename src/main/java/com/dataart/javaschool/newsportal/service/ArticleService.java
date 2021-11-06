@@ -70,7 +70,7 @@ public class ArticleService {
                 }
                 Article article = Article.builder()
                         .title(titleBuilder.toString())
-                        .text(textBuilder.toString())
+                        .body(textBuilder.toString())
                         .build();
                 return new ArticleDto(articleRepository.save(article));
             }

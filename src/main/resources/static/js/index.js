@@ -53,7 +53,7 @@ function initArticles(articlesJSON) {
             </article>
         `);
         $(article).find("h2").text(articleJSON.title);
-        $(article).find(".p-3").text(articleJSON.text);
+        $(article).find(".p-3").text(articleJSON.body);
         $(article).find("em").text(formatDate(articleJSON.creationTime));
         container.append(article);
     }

@@ -13,7 +13,7 @@ public class Article {
     @Id
     private Integer id;
     private String title;
-    private String text;
+    private String body;
     @Builder.Default
     private Timestamp creationTime = new Timestamp(System.currentTimeMillis());
 }

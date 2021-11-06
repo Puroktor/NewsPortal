@@ -13,12 +13,12 @@ import java.sql.Timestamp;
 public class ArticleDto {
     private Long id;
     private String title;
-    private String text;
+    private String body;
     private Timestamp creationTime;
 
     public ArticleDto(Article entity) {
         this.title = entity.getTitle();
-        this.text = entity.getText();
+        this.body = entity.getBody();
         this.creationTime =entity.getCreationTime();
     }
 }
