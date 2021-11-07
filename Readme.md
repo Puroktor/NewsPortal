@@ -16,10 +16,8 @@
 4) After line "1.0.0 digest: sha-256: ..."\
 Copy the following line and again press Enter \
 `docker run --name news-portal -p 7228:7228 -d goosepusher/news-portal:1.0.0`
-5) Congratulations! You can find your site on:\
-http://localhost:7228/ \
-or\
-http://127.0.0.1:7228/
+5) Congratulations! You can find your site on: http://localhost:7228/ \
+or http://127.0.0.1:7228/
 
 ### Basic work with your server:
 1) Stop server (without deleting data)\
