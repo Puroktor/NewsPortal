@@ -1,7 +1,12 @@
 const UPLOAD_URL = "http://localhost:7228/api/article/upload";
-
+let selectedTheme;
 $("#redirect-button").click(function () {
     window.location.href = "index.html";
+});
+
+$(".dropdown-item").click(function () {
+    selectedTheme = $(this).text();
+    $("#mainDropdownButton").text(selectedTheme);
 });
 
 $("#submit").click(function () {
@@ -10,20 +15,23 @@ $("#submit").click(function () {
         showError("Select .zip file!");
         return;
     }
+    if (selectedTheme === undefined) {
+        showError("Select a theme!");
+        return;
+    }
     let formData = new FormData();
-    formData.append( "file", file);
+    formData.append("file", file);
     $.ajax({
-        url: UPLOAD_URL,
+        url: `${UPLOAD_URL}?theme=${selectedTheme}`,
         type: "POST",
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         origin: "*"
-    }).done(function (){
+    }).done(function () {
         showMessage("Success!", "The article was successfully added.");
     }).fail(function (response) {
-        console.log(response);
         showError(response.responseJSON.message);
     });
 });

@@ -6,7 +6,7 @@
     <script type="text/javascript" src="js/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/common.css"/>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,12 +22,25 @@
         <div class="row text-center p-5">
             <h3 class="text title">Accepts only .zip file, which should contain one file - article.txt</h3>
         </div>
-
+        <div class="row text-center">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="mainDropdownButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Select a theme:
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item">Sport</a></li>
+                    <li><a class="dropdown-item">Finance</a></li>
+                    <li><a class="dropdown-item">Journeys</a></li>
+                    <li><a class="dropdown-item">Politics</a></li>
+                </ul>
+            </div>
+        </div>
         <form enctype="multipart/form-data">
-            <div class="row p-3 center">
+            <div class="row p-4 center">
                 <input type="file" class="form-control w-75 mx-auto" id="input" accept=".zip">
             </div>
-            <div class="row p-4">
+            <div class="row p-2">
                 <div class="col text-center">
                     <button type="button" class="btn btn-dark" id="submit">Upload</button>
                 </div>

@@ -29,3 +29,7 @@
     word-wrap: break-word;
     white-space: pre-wrap;
 }
+
+.mb-n{
+    margin-bottom: -2rem !important;
+}
