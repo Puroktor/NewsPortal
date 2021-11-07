@@ -36,3 +36,6 @@ Copy the following line and again press Enter \
  + Every value from client is validated on server
  + JUnit tests are present for every endpoint
  + HTML, JS, SQL injections are not possible
+
+P.S. Docker Hub:\
+https://hub.docker.com/repository/docker/goosepusher/news-portal/general
