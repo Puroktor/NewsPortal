@@ -1,6 +1,6 @@
-const FETCH_ARTICLES_PAGE_URL = "http://localhost:7228/api/article/page";
+const FETCH_ARTICLES_PAGE_URL = "api/article/page";
 const urlParams = new URLSearchParams(window.location.search);
-const FETCH_THEME_PAGE_URL = "http://localhost:7228/api/article/themePage";
+const FETCH_THEME_PAGE_URL = "api/article/themePage";
 const pageSize = 1;
 const pageTheme = urlParams.has("theme") ? urlParams.get("theme") : "All";
 let pageIndex;
@@ -27,6 +27,7 @@ if (pageTheme === "All") {
     };
     URL = FETCH_THEME_PAGE_URL;
 }
+console.log(URL);
 $.ajax({
     url: URL,
     type: "GET",
