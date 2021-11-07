@@ -16,7 +16,6 @@ public class SwaggerConfig {
 
     @Bean
     public Docket swaggerSpringfoxDocket() {
-
         return new Docket(DocumentationType.SWAGGER_2)
                 .forCodeGeneration(true)
                 .genericModelSubstitutes(ResponseEntity.class)
