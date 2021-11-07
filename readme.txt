@@ -39,3 +39,6 @@ http://127.0.0.1:7228/
  + Every value from client is validated on server
  + JUnit tests are present for every endpoint
  + HTML, JS, SQL injections are not possible
+
+P.S. Docker Hub:
+https://hub.docker.com/r/goosepusher/news-portal

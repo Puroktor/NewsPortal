@@ -41,4 +41,4 @@ http://127.0.0.1:7228/
  + HTML, JS, SQL injections are not possible
 
 P.S. Docker Hub:\
-https://hub.docker.com/repository/docker/goosepusher/news-portal/general
+https://hub.docker.com/r/goosepusher/news-portal
