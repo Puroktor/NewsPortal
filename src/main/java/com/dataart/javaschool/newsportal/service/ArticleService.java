@@ -31,9 +31,9 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final Validator validator;
-    @Value("${article.requiredFileName}")
+    @Value("${article.required-filename}")
     private String requiredFileName;
-    @Value("${article.maxArticleSize}")
+    @Value("${article.max-size}")
     private Integer maxArticleSize;
 
     public List<ArticleDto> fetchAllArticles() {
@@ -64,7 +64,7 @@ public class ArticleService {
                 Article article = Article.builder()
                         .title(title)
                         .body(body)
-                        .theme(theme.toLowerCase())
+                        .theme(theme)
                         .build();
                 return saveArticle(article);
             }
@@ -106,7 +106,7 @@ public class ArticleService {
 
     public Page<ArticleDto> fetchPageByTheme(String theme, int index, int size) {
         Page<ArticleDto> dtoPage = articleRepository
-                .findAllByThemeOrderByIdDesc(theme.toLowerCase(), PageRequest.of(index, size))
+                .findAllByThemeOrderByIdDesc(theme, PageRequest.of(index, size))
                 .map(ArticleDto::new);
         if (dtoPage.isEmpty()) {
             throw new EmptyPageException("This page is empty!");

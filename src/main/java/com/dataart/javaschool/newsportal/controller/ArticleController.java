@@ -13,13 +13,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @RestController
-@RequestMapping("${article.articleControllerMapping}")
+@RequestMapping("${article-controller.base}")
 @RequiredArgsConstructor
 @Validated
 public class ArticleController {
     private final ArticleService articleService;
 
-    @PostMapping("${article.uploadArticleMapping}")
+    @PostMapping("${article-controller.upload-article}")
     public ResponseEntity<?> uploadArticle(@NotNull @RequestBody MultipartFile file,
                                            @RequestParam("theme") String theme /* validated in service layer*/) {
         return ResponseEntity
@@ -27,18 +27,18 @@ public class ArticleController {
                 .body(articleService.uploadArticle(file, theme));
     }
 
-    @GetMapping("${article.fetchAllMapping}")
+    @GetMapping("${article-controller.fetch-all}")
     public ResponseEntity<?> fetchAllArticles() {
         return ResponseEntity.ok(articleService.fetchAllArticles());
     }
 
-    @GetMapping("${article.fetchPageMapping}")
+    @GetMapping("${article-controller.fetch-page}")
     public ResponseEntity<?> fetchPage(@Min(0) @RequestParam("index") int index,
                                        @Min(1) @RequestParam("size") int size) {
         return ResponseEntity.ok(articleService.fetchPage(index, size));
     }
 
-    @GetMapping("${article.fetchPageByThemeMapping}")
+    @GetMapping("${article-controller.fetch-page-by-theme}")
     public ResponseEntity<?> fetchPageByTheme(@NotNull @Size(min = 1, max = 20) String theme,
                                        @Min(0) @RequestParam("index") int index,
                                        @Min(1) @RequestParam("size") int size) {

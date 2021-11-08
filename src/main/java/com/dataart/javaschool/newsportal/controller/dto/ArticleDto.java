@@ -20,7 +20,7 @@ public class ArticleDto {
     public ArticleDto(Article entity) {
         this.title = entity.getTitle();
         this.body = entity.getBody();
-        this.theme = entity.getTheme().substring(0, 1).toUpperCase() + entity.getTheme().substring(1);
+        this.theme = entity.getTheme();
         this.creationTime = entity.getCreationTime();
     }
 }

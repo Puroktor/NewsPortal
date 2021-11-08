@@ -26,7 +26,7 @@ or http://127.0.0.1:7228/
 `docker start news-portal`
 3) Remove stopped server (you will lose all your articles!)\
 `docker rm news-portal`
-4) Remove server code from your computer:
+4) Remove server code from your computer:\
 `docker rmi goosepusher/news-portal:1.0.0`
 
 ### Main features:

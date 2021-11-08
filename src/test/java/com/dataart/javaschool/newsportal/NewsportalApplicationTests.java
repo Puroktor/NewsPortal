@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -24,6 +24,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,20 +36,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@EnableConfigurationProperties(value = ArticleControllerProperties.class)
 class NewsportalApplicationTests {
-
-    @Value("${article.baseURL}")
-    private String baseURL;
-    @Value("${article.articleControllerMapping}")
-    private String controllerURL;
-    @Value("${article.uploadArticleMapping}")
-    private String uploadURL;
-    @Value("${article.fetchAllMapping}")
-    private String fetchAllURL;
-    @Value("${article.fetchPageMapping}")
-    private String fetchPageURL;
-    @Value("${article.fetchPageByThemeMapping}")
-    private String fetchPageByThemeMapping;
+    public static final String baseURL = "http://127.0.0.1:7228";
+    @Resource
+    private ArticleControllerProperties properties;
     private final RestTemplate restTemplate;
 
     @MockBean
@@ -88,12 +80,12 @@ class NewsportalApplicationTests {
     @SuppressWarnings("unchecked, rawtypes, ConstantConditions")
     void testFetchAll() {
         List<Article> articles = new ArrayList<>();
-        articles.add(Article.builder().title("3").body("4").theme("finance").build());
-        articles.add(Article.builder().title("1").body("2").theme("sport").build());
+        articles.add(Article.builder().title("3").body("4").theme("Finance").build());
+        articles.add(Article.builder().title("1").body("2").theme("Sport").build());
         List<ArticleDto> dtoList = articles.stream().map(ArticleDto::new).collect(Collectors.toList());
         Mockito.when(mockRepository.findAllByOrderByIdDesc()).thenReturn(articles);
         ResponseEntity<List> response = restTemplate.getForEntity(
-                String.format("%s%s%s", baseURL, controllerURL, fetchAllURL), List.class);
+                String.format("%s%s%s", baseURL, properties.getBase(), properties.getFetchAll()), List.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         for (int i = 0; i < 2; i++) {
             Map<String, String> returnedArticle = (Map<String, String>) response.getBody().get(i);
@@ -108,7 +100,7 @@ class NewsportalApplicationTests {
 
     @Test
     void testFetchPage() {
-        Article article = Article.builder().id(0).title("123").body("345").theme("sport").build();
+        Article article = Article.builder().id(0).title("123").body("345").theme("Sport").build();
         Page<Article> page = new PageImpl<>(List.of(article));
         Mockito.when(mockRepository.findAllByOrderByIdDesc(Mockito.any(Pageable.class))).thenAnswer(i -> {
             Pageable p = i.getArgument(0);
@@ -118,7 +110,7 @@ class NewsportalApplicationTests {
             return new PageImpl<>(new ArrayList<>());
         });
 
-        String url = String.format("%s%s%s", baseURL, controllerURL, fetchPageURL);
+        String url = String.format("%s%s%s", baseURL, properties.getBase(), properties.getFetchPage());
         testPage(url, page, null);
     }
 
@@ -149,19 +141,19 @@ class NewsportalApplicationTests {
 
     @Test
     void testFetchPageByTheme() {
-        Article article = Article.builder().id(0).title("123").body("345").theme("sport").build();
+        Article article = Article.builder().id(0).title("123").body("345").theme("Sport").build();
         Page<Article> page = new PageImpl<>(List.of(article));
         Mockito.when(mockRepository.findAllByThemeOrderByIdDesc(Mockito.any(String.class), Mockito.any(Pageable.class)))
                 .thenAnswer(i -> {
                     String theme = i.getArgument(0);
                     Pageable p = i.getArgument(1);
-                    if (p.getPageNumber() == 0 && p.getPageSize() == 1 && theme.equals("sport")) {
+                    if (p.getPageNumber() == 0 && p.getPageSize() == 1 && theme.equals("Sport")) {
                         return page;
                     }
                     return new PageImpl<>(new ArrayList<>());
                 });
 
-        String url = String.format("%s%s%s", baseURL, controllerURL, fetchPageByThemeMapping);
+        String url = String.format("%s%s%s", baseURL, properties.getBase(), properties.getFetchPageByTheme());
         testPage(url, page, "Sport");
     }
 
@@ -172,7 +164,7 @@ class NewsportalApplicationTests {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", resource);
         return restTemplate.postForEntity(buildUriString(
-                        String.format("%s%s%s", baseURL, controllerURL, uploadURL), theme),
+                        String.format("%s%s%s", baseURL, properties.getBase(), properties.getUploadArticle()), theme),
                 new HttpEntity<>(body, headers), ArticleDto.class);
     }
 

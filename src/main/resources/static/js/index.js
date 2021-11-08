@@ -27,7 +27,6 @@ if (pageTheme === "All") {
     };
     URL = FETCH_THEME_PAGE_URL;
 }
-console.log(URL);
 $.ajax({
     url: URL,
     type: "GET",
