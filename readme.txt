@@ -13,7 +13,7 @@
 2) Open terminal (for Windows: Win+R -> cmd -> Enter)
 3) Copy the following line and press Enter
 `docker pull goosepusher/news-portal:1.0.0`
-4) After line "1.0.0 digest: sha-256: ..."
+4) After line "Digest: sha-256: ..."
 Copy the following line and again press Enter 
 `docker run --name news-portal -p 7228:7228 -d goosepusher/news-portal:1.0.0`
 5) Congratulations! You can find your site on:
