@@ -2,6 +2,7 @@ package com.dataart.javaschool.newsportal.controller;
 
 import com.dataart.javaschool.newsportal.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @RestController
+@PropertySource("classpath:article-controller.properties")
 @RequestMapping("${article-controller.base}")
 @RequiredArgsConstructor
 @Validated
