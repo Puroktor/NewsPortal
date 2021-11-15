@@ -1,7 +1,6 @@
 package com.dataart.javaschool.newsportal.controller;
 
 import com.dataart.javaschool.newsportal.controller.dto.ErrorDto;
-import com.dataart.javaschool.newsportal.exception.EmptyPageException;
 import com.dataart.javaschool.newsportal.exception.TooBigFileException;
 import com.dataart.javaschool.newsportal.exception.WrongFileFormatException;
 import org.springframework.http.HttpStatus;
@@ -43,12 +42,4 @@ public class ExceptionHandlerController {
     public ErrorDto handleWrongFileFormatException(TooBigFileException e) {
         return new ErrorDto(e.getMessage());
     }
-
-    @ExceptionHandler(EmptyPageException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public ErrorDto handleWrongFileFormatException(EmptyPageException e) {
-        return new ErrorDto(e.getMessage());
-    }
-
 }

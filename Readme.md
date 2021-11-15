@@ -12,10 +12,10 @@
    https://docs.docker.com/desktop/mac/install/
 2) Open terminal (for Windows: Win+R -> cmd -> Enter)
 3) Copy the following line and press Enter\
-`docker pull goosepusher/news-portal:1.0.0`
+`docker pull goosepusher/news-portal:1.0.1`
 4) After line "Digest: sha-256: ..."\
 Copy the following line and again press Enter \
-`docker run --name news-portal -p 7228:7228 -d goosepusher/news-portal:1.0.0`
+`docker run --name news-portal -p 7228:7228 -d goosepusher/news-portal:1.0.1`
 5) Congratulations! You can find your site on: http://localhost:7228/ \
 or http://127.0.0.1:7228/
 
@@ -27,7 +27,7 @@ or http://127.0.0.1:7228/
 3) Remove stopped server (you will lose all your articles!)\
 `docker rm news-portal`
 4) Remove server code from your computer:\
-`docker rmi goosepusher/news-portal:1.0.0`
+`docker rmi goosepusher/news-portal:1.0.1`
 
 ### Main features:
  + Application is designed using REST architecture
@@ -35,7 +35,7 @@ or http://127.0.0.1:7228/
  + Articles are shown on separate pages
  + Sort by article theme is available
  + Every value from client is validated on server
- + JUnit tests are present for every endpoint
+ + Functional tests are present
  + HTML, JS, SQL injections are not possible
 
 P.S. Docker Hub:\

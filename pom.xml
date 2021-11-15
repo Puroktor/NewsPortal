@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.dataart.javaschool</groupId>
 	<artifactId>news-portal</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>NewsPortal</name>
 	<description>Final task for java school</description>
 	<properties>

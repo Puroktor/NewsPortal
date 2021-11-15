@@ -1,8 +1,8 @@
 package com.dataart.javaschool.newsportal.service;
 
 import com.dataart.javaschool.newsportal.controller.dto.ArticleDto;
+import com.dataart.javaschool.newsportal.controller.dto.ArticleMapper;
 import com.dataart.javaschool.newsportal.entity.Article;
-import com.dataart.javaschool.newsportal.exception.EmptyPageException;
 import com.dataart.javaschool.newsportal.exception.TooBigFileException;
 import com.dataart.javaschool.newsportal.exception.WrongFileFormatException;
 import com.dataart.javaschool.newsportal.repository.ArticleRepository;
@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,13 +38,6 @@ public class ArticleService {
     @Value("${article.max-size}")
     private Integer maxArticleSize;
 
-    public List<ArticleDto> fetchAllArticles() {
-        List<ArticleDto> dtoList = new ArrayList<>();
-        articleRepository.findAllByOrderByIdDesc().forEach(article ->
-                dtoList.add(new ArticleDto(article)));
-        return dtoList;
-    }
-
     public ArticleDto uploadArticle(MultipartFile file, String theme) {
         if (maxArticleSize < file.getSize()) {
             throw new TooBigFileException("Article is too big! Max length - 20000 symbols");
@@ -58,8 +51,9 @@ public class ArticleService {
             } else if (!entry.getName().equals(requiredFileName)) {
                 throw new WrongFileFormatException("Invalid internal file name!");
             } else {
-                String title = readTillChar(zipStream, '\n');
-                String body = readTillChar(zipStream, -1);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(zipStream));
+                String title = reader.readLine();
+                String body = reader.lines().collect(Collectors.joining());
                 if (zipStream.getNextEntry() != null) {
                     throw new WrongFileFormatException("Multiple files in the archive!");
                 }
@@ -84,35 +78,20 @@ public class ArticleService {
                     .collect(Collectors.joining(", "));
             throw new WrongFileFormatException(exceptionMessage);
         }
-        return new ArticleDto(articleRepository.save(article));
+        return ArticleMapper.toDto(articleRepository.save(article));
     }
 
-    private String readTillChar(InputStream stream, int till) throws IOException{
-        StringBuilder stringBuilder = new StringBuilder();
-        int ch;
-        while ((ch = stream.read()) != till && ch != -1) {
-            stringBuilder.append((char) ch);
-        }
-        return stringBuilder.toString();
+    public Page<ArticleDto> fetchPageByTheme(String theme, int index, int size, String sortBy, boolean isAsc) {
+        Sort sort = isAsc ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        return articleRepository
+                .findAllByTheme(theme, PageRequest.of(index, size, sort))
+                .map(ArticleMapper::toDto);
     }
 
-    public Page<ArticleDto> fetchPage(int index, int size) {
-        Page<ArticleDto> dtoPage = articleRepository
-                .findAllByOrderByIdDesc(PageRequest.of(index, size))
-                .map(ArticleDto::new);
-        if (dtoPage.isEmpty()) {
-            throw new EmptyPageException("This page is empty!");
-        }
-        return dtoPage;
-    }
-
-    public Page<ArticleDto> fetchPageByTheme(String theme, int index, int size) {
-        Page<ArticleDto> dtoPage = articleRepository
-                .findAllByThemeOrderByIdDesc(theme, PageRequest.of(index, size))
-                .map(ArticleDto::new);
-        if (dtoPage.isEmpty()) {
-            throw new EmptyPageException("This page is empty!");
-        }
-        return dtoPage;
+    public Page<ArticleDto> fetchPage(int index, int size, String sortBy, boolean isAsc) {
+        Sort sort = isAsc ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        return articleRepository
+                .findAll(PageRequest.of(index, size, sort))
+                .map(ArticleMapper::toDto);
     }
 }

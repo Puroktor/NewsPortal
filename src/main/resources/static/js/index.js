@@ -1,8 +1,9 @@
-const FETCH_ARTICLES_PAGE_URL = "api/article/page";
+const FETCH_ARTICLES_PAGE_URL = "api/article";
 const urlParams = new URLSearchParams(window.location.search);
-const FETCH_THEME_PAGE_URL = "api/article/themePage";
 const pageSize = 1;
 const pageTheme = urlParams.has("theme") ? urlParams.get("theme") : "All";
+const sortBy = "id";
+const isAsc = false;
 let pageIndex;
 try {
     let temp = parseInt(urlParams.get("page"));
@@ -12,33 +13,26 @@ try {
 }
 
 $("#mainDropdownButton").text(pageTheme);
-let URL, data;
-if (pageTheme === "All") {
-    data = {
-        index: pageIndex,
-        size: pageSize
-    };
-    URL = FETCH_ARTICLES_PAGE_URL;
-} else {
-    data = {
-        index: pageIndex,
-        size: pageSize,
-        theme: pageTheme
-    };
-    URL = FETCH_THEME_PAGE_URL;
+let data = {
+    index: pageIndex,
+    size: pageSize,
+    sort: sortBy,
+    isAsc: isAsc
+}
+if (pageTheme !== "All") {
+    data.theme = pageTheme;
 }
 $.ajax({
-    url: URL,
+    url: FETCH_ARTICLES_PAGE_URL,
     type: "GET",
     data: data
 }).done(function (response) {
-    initArticles(response.content);
-    initPaginationNav(response.totalPages);
-
-}).fail(function (error) {
-    if (error.status !== 404) {
-        showError(error.responseJSON.message);
+    if (response.totalPages !== 0) {
+        initArticles(response.content);
+        initPaginationNav(response.totalPages);
     }
+}).fail(function (error) {
+    showError(error.responseJSON.message);
 });
 
 $("#redirect-button").click(function () {

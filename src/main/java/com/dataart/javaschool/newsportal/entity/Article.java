@@ -18,15 +18,15 @@ public class Article {
     @Id
     private Integer id;
     @NotNull
-    @Size(min=1, max=50, message
+    @Size(min = 1, max = 50, message
             = "Title mist be be between 1 and 50 characters")
     private String title;
     @NotNull
-    @Size(min=1, max=50, message
+    @Size(min = 1, max = 20000, message
             = "Body mist be be between 1 and 20000 characters")
     private String body;
     @NotNull
-    @Size(min=1, max=20, message
+    @Size(min = 1, max = 20, message
             = "Theme mist be be between 1 and 20 characters")
     private String theme;
     @Builder.Default

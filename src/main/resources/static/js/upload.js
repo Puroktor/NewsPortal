@@ -1,4 +1,4 @@
-const UPLOAD_URL = "api/article/upload";
+const UPLOAD_URL = "api/article";
 let selectedTheme;
 $("#redirect-button").click(function () {
     window.location.href = "index.html";
